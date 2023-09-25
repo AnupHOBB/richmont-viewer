@@ -42,7 +42,7 @@ export class StaticModel extends SceneObject
     setPosition(x, y, z) { this.mesh.position.set(x, y, z) }
 
     /**
-     * Sets the rotation of the mesh in world space
+     * Sets the rotation of the mesh in world space using euler values
      * @param {Number} x x-coordinate in world space
      * @param {Number} y y-coordinate in world space
      * @param {Number} z z-coordinate in world space 
@@ -155,12 +155,26 @@ export class MeshModel extends SceneObject
     setPosition(x, y, z) { this.scene.position.set(x, y, z) }
 
     /**
-     * Sets the rotation of the mesh in world space
+     * Sets the rotation of the mesh in world space using euler values
      * @param {Number} x x-coordinate in world space
      * @param {Number} y y-coordinate in world space
      * @param {Number} z z-coordinate in world space 
      */
     setRotation(x, y, z) { this.scene.rotation.set(x, y, z) }
+
+    /**
+     * Sets the rotation of the mesh in world space using axis and angle
+     * @param {Vector3} axis axis of rotation
+     * @param {Number} angle angle of rotation in radians
+     */
+    setRotationFromAxisAngle(axis, angle) { this.scene.setRotationFromAxisAngle(axis, angle) }
+
+    /**
+     * Sets the rotation order for the model. Values should be one of the following in string :-
+     * XYZ, ZXY, YZX, XZY, YXZ, ZYX
+     * @param {String} order the rotation order in string
+     */
+    setRotationOrder(order) { this.scene.rotation.order = order }
 
     /**
      * Adds delta rotation into existing rotation values of the mesh in world space

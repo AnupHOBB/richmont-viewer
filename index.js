@@ -11,6 +11,8 @@ const TEXTURE_BASE_KEY = 'texture'
 const MODEL_PATH = './assets/Richemont_Dial_Test.glb'
 const MODEL_NAME = 'Watch'
 const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
+let xrot = 0
+let yrot = 0
 let model
 loadAssets()
 
@@ -72,20 +74,54 @@ function onLoadComplete(assetMap)
     let canvas = document.querySelector('canvas#scene')
     let sceneManager = new ENGINE.SceneManager(canvas)
     sceneManager.setSizeInPercent(0.8, 1)
-    let cameraManager = new ENGINE.OrbitalCameraManager('Camera', 50, new THREE.Vector3(0, -0.5, 0))
+    let cameraManager = new ENGINE.StaticCameraManager('Camera', 50)
     cameraManager.setPosition(0, -0.5, 5)
     sceneManager.register(cameraManager)
     sceneManager.setActiveCamera('Camera')
-    let directLight = new ENGINE.DirectLight('DirectLight', new THREE.Color(1, 1, 1), 1, 0.001)
-    directLight.setPosition(0, 25, 100)
-    directLight.setLookAt(0, -0.5, 0)
-    sceneManager.register(directLight)
+
+    let leftLight = new ENGINE.DirectLight('DirectLightLeft', new THREE.Color(1, 1, 1), 0.25)
+    leftLight.setPosition(-35, -0.5, 0)
+    leftLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(leftLight)
+    let rightLight = new ENGINE.DirectLight('DirectLightRight', new THREE.Color(1, 1, 1), 0.25)
+    rightLight.setPosition(35, -0.5, 0)
+    rightLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(rightLight)
+    let frontLight = new ENGINE.DirectLight('DirectLightCenter', new THREE.Color(1, 1, 1), 0.25)
+    frontLight.setPosition(0, -0.5, 50)
+    frontLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(frontLight)
+    let topLight = new ENGINE.DirectLight('DirectLightTop', new THREE.Color(1, 1, 1), 0.25)
+    topLight.setPosition(0, 34.5, 0)
+    topLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(topLight)
+    let bottomLight = new ENGINE.DirectLight('DirectLightBottom', new THREE.Color(1, 1, 1), 0.25)
+    bottomLight.setPosition(0, -35.5, 0)
+    bottomLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(bottomLight)
+    let rearLight = new ENGINE.DirectLight('DirectLightRear', new THREE.Color(1, 1, 1), 0.25)
+    rearLight.setPosition(0, -0.5, -50)
+    rearLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(rearLight)
+
     let input = new ENGINE.InputManager('Input', canvas)
+    input.registerMoveEvent(RotateModel)
     sceneManager.register(input)
-    cameraManager.registerInput(input)
     model = new ENGINE.MeshModel(MODEL_NAME, assetMap.get(MODEL_NAME), true)
     model.setPosition(0, -0.5, 0)
-    model.setRotation(1.5, 0, 0)
+    model.setRotationOrder('XZY')
+    yrot = 90
+    model.setRotation(ENGINE.Maths.toRadians(yrot), 0, 0)
     sceneManager.register(model)
     onTextureClick(5)
+}
+
+function RotateModel(dx, dy)
+{
+    if (model != undefined)
+    {
+        xrot += dx * 0.5
+        yrot += dy * 0.5
+        model.setRotation(ENGINE.Maths.toRadians(yrot), 0, ENGINE.Maths.toRadians(-xrot))
+    }
 }

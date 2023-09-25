@@ -36,7 +36,7 @@ export class SceneRenderer
         this.renderer = new THREE.WebGLRenderer({canvas, alpha: true})
         this.renderer.shadowMap.enabled = true
         this.renderer.shadowMap.type = THREE.PCFSoftShadowMap
-        this.renderer.toneMapping = THREE.LinearToneMapping
+        this.renderer.toneMapping = THREE.ACESFilmicToneMapping
         this.renderer.toneMappingExposure = 1
         this.renderer.setPixelRatio(window.innerWidth/window.innerHeight)
         this.bloomObjects = []
