@@ -272,13 +272,14 @@ export class MeshModel extends SceneObject
             Misc.postOrderTraversal(this.scene, mesh => {
                 if (mesh.material != undefined)
                 {
-                    //mesh.material.setDiffuseTexture(texture)
                     for (let name of names)
                     {
                         if (name == mesh.name)
                         {        
-                            //mesh.material.map = texture
-                            mesh.material.setDiffuseTexture(texture)
+                            if (mesh.material.setDiffuseTexture != undefined)
+                                mesh.material.setDiffuseTexture(texture)
+                            else
+                                mesh.material.map = texture
                             break
                         }
                     }    

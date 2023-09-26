@@ -10,6 +10,7 @@ const TEXTURES = []
 const TEXTURE_BASE_KEY = 'texture'
 const MODEL_PATH = './assets/Richemont_Dial_Test.glb'
 const MODEL_NAME = 'Watch'
+                        //smaller dials          bigger dial
 const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
 let xrot = 0
 let yrot = 0
@@ -112,7 +113,7 @@ function onLoadComplete(assetMap)
     model.setRotationOrder('XZY')
     yrot = 90
     model.setRotation(ENGINE.Maths.toRadians(yrot), 0, 0)
-    model.applyMaterialOn(new ENGINE.AnistropicLightingMaterial(), MESH_NAMES)
+    model.applyMaterialOn(new ENGINE.AnistropicLightingMaterial(), ['Dialc061_10108_123_2'])//MESH_NAMES
     sceneManager.register(model)
     onTextureClick(5)
 }
