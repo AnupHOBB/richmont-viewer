@@ -216,6 +216,39 @@ export class MeshModel extends SceneObject
     getPosition() { return this.scene.position }
 
     /**
+     * 
+     * @type {THREE.ShaderMaterial} material
+     */
+    applyMaterial(material)
+    {
+        Misc.postOrderTraversal(this.scene, mesh => {
+            if (mesh.material != undefined)
+                mesh.material = material
+        }) 
+    }
+
+    /**
+     * 
+     * @type {THREE.ShaderMaterial} material
+     */
+    applyMaterialOn(material, names)
+    {
+        Misc.postOrderTraversal(this.scene, mesh => {
+            if (mesh.material != undefined)
+            {    
+                for (let name of names)
+                {
+                    if (name == mesh.name)
+                    {        
+                        mesh.material = material
+                        break
+                    }
+                }  
+            }
+        }) 
+    }
+
+    /**
     * Applies texture on the model.
     * @param {THREE.Texture} texture threejs texture object
     */
@@ -234,19 +267,24 @@ export class MeshModel extends SceneObject
     */
     applyTextureOn(texture, names) 
     { 
-        Misc.postOrderTraversal(this.scene, mesh => {
-            if (mesh.material != undefined)
-            {
-                for (let name of names)
+        if (names.length > 0)
+        {
+            Misc.postOrderTraversal(this.scene, mesh => {
+                if (mesh.material != undefined)
                 {
-                    if (name == mesh.name)
-                    {        
-                        mesh.material.map = texture
-                        break
-                    }
-                }    
-            }
-        }) 
+                    //mesh.material.setDiffuseTexture(texture)
+                    for (let name of names)
+                    {
+                        if (name == mesh.name)
+                        {        
+                            //mesh.material.map = texture
+                            mesh.material.setDiffuseTexture(texture)
+                            break
+                        }
+                    }    
+                }
+            }) 
+        }
     }
 
     /**
@@ -278,7 +316,7 @@ export class MeshModel extends SceneObject
 
     /**
     * Applies normal map on the model.
-    * @param {THREE.Color} normalMap normal map of scene
+    * @param {THREE.Texture} normalMap normal map of scene
     */
     applyNormalmap(normalMap)
     {

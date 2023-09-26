@@ -112,6 +112,7 @@ function onLoadComplete(assetMap)
     model.setRotationOrder('XZY')
     yrot = 90
     model.setRotation(ENGINE.Maths.toRadians(yrot), 0, 0)
+    model.applyMaterialOn(new ENGINE.AnistropicLightingMaterial(), MESH_NAMES)
     sceneManager.register(model)
     onTextureClick(5)
 }
