@@ -2,10 +2,13 @@ import * as THREE from './node_modules/three/src/Three.js'
 import * as ENGINE from './engine/Engine.js'
 import {GLTFLoader} from './node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 
-const TEXTURE_PATHS = ['assets/images/1.png', 'assets/images/2.png', 'assets/images/3.png', 'assets/images/4.png', 'assets/images/5.png', 'assets/images/6.png']
+const EXTENSION = '.jpg'//'.png'
+const TEXTURE_PATHS = ['assets/images/1'+EXTENSION, 'assets/images/2'+EXTENSION, 'assets/images/3'+EXTENSION, 
+'assets/images/4'+EXTENSION, 'assets/images/5'+EXTENSION, 'assets/images/6'+EXTENSION]
 const TEXTURES = []
 const TEXTURE_BASE_KEY = 'texture'
-const MODEL_PATH = './assets/Richemont_Dial_Test.glb'
+const MODEL_PATH = './assets/Dial0123.glb'
+//const MODEL_PATH = './assets/Richemont_Dial_Test.glb'
 const MODEL_NAME = 'Watch'
                         //smaller dials          bigger dial
 const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
@@ -55,77 +58,77 @@ function onLoadComplete(assetMap)
     sceneManager.register(cameraManager)
     sceneManager.setActiveCamera('Camera')
 
-    let frontLight = new ENGINE.SpotLight('DirectLightFront', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    const LIGHT_INTENSITY = 1
+    let frontLight = new ENGINE.SpotLight('DirectLightFront', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontLight.setPosition(0, -0.5, 5)
     frontLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontLight)
-    let leftLight = new ENGINE.SpotLight('DirectLightLeft', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let leftLight = new ENGINE.SpotLight('DirectLightLeft', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     leftLight.setPosition(-5, -0.5, 0)
     leftLight.setLookAt(0, -0.5, 0)
     sceneManager.register(leftLight)
-    let rightLight = new ENGINE.SpotLight('DirectLightRight', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let rightLight = new ENGINE.SpotLight('DirectLightRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     rightLight.setPosition(5, -0.5, 0)
     rightLight.setLookAt(0, -0.5, 0)
     sceneManager.register(rightLight)
-    let topLight = new ENGINE.SpotLight('DirectLightTop', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let topLight = new ENGINE.SpotLight('DirectLightTop', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     topLight.setPosition(0, 4.5, 0)
     topLight.setLookAt(0, -0.5, 0) 
     sceneManager.register(topLight)
-    let bottomLight = new ENGINE.SpotLight('DirectLightBottom', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let bottomLight = new ENGINE.SpotLight('DirectLightBottom', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     bottomLight.setPosition(0, -5.5, 0)
     bottomLight.setLookAt(0, -0.5, 0)
     sceneManager.register(bottomLight)
-    let topLeftLight = new ENGINE.SpotLight('DirectLightTopLeft', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let topLeftLight = new ENGINE.SpotLight('DirectLightTopLeft', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     topLeftLight.setPosition(-5, 4.5, 0)
     topLeftLight.setLookAt(0, -0.5, 0) 
     sceneManager.register(topLeftLight)
-    let topRightLight = new ENGINE.SpotLight('DirectLightTopRight', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let topRightLight = new ENGINE.SpotLight('DirectLightTopRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     topRightLight.setPosition(5, 4.5, 0)
     topRightLight.setLookAt(0, -0.5, 0)
     sceneManager.register(topRightLight)
-    let bottomLeftLight = new ENGINE.SpotLight('DirectLightBottomLeft', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let bottomLeftLight = new ENGINE.SpotLight('DirectLightBottomLeft', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     bottomLeftLight.setPosition(-5, 5.5, 0)
     bottomLeftLight.setLookAt(0, -0.5, 0) 
     sceneManager.register(bottomLeftLight)
-    let bottomRightLight = new ENGINE.SpotLight('DirectLightBottomRight', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let bottomRightLight = new ENGINE.SpotLight('DirectLightBottomRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     bottomRightLight.setPosition(5, 5.5, 0)
     bottomRightLight.setLookAt(0, -0.5, 0)
     sceneManager.register(bottomRightLight)
 
-    let frontLeftLight = new ENGINE.SpotLight('DirectLightFrontLeft', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontLeftLight = new ENGINE.SpotLight('DirectLightFrontLeft', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontLeftLight.setPosition(-2.5, -0.5, 2.5)
     frontLeftLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontLeftLight)
-    let frontRightLight = new ENGINE.SpotLight('DirectLightFrontRight', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontRightLight = new ENGINE.SpotLight('DirectLightFrontRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontRightLight.setPosition(2.5, -0.5, 2.5)
     frontRightLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontRightLight)
-    let frontTopLight = new ENGINE.SpotLight('DirectLightFrontTop', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontTopLight = new ENGINE.SpotLight('DirectLightFrontTop', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontTopLight.setPosition(0, 2, 2.5)
     frontTopLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontTopLight)
-    let frontBottomLight = new ENGINE.SpotLight('DirectLightFrontBottom', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontBottomLight = new ENGINE.SpotLight('DirectLightFrontBottom', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontBottomLight.setPosition(0, -3, 2.5)
     frontBottomLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontBottomLight)
 
-    let frontTopLeftLight = new ENGINE.SpotLight('DirectLightFrontTopLeft', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontTopLeftLight = new ENGINE.SpotLight('DirectLightFrontTopLeft', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontTopLeftLight.setPosition(-2.5, 2, 2.5)
     frontTopLeftLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontTopLeftLight)
-    let frontTopRightLight = new ENGINE.SpotLight('DirectLightFrontTopRight', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontTopRightLight = new ENGINE.SpotLight('DirectLightFrontTopRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontTopRightLight.setPosition(2.5, 2, 2.5)
     frontTopRightLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontTopRightLight)
-    let frontBottomLeftLight = new ENGINE.SpotLight('DirectLightFrontBottomLeft', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontBottomLeftLight = new ENGINE.SpotLight('DirectLightFrontBottomLeft', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontBottomLeftLight.setPosition(-2.5, -3, 2.5)
     frontBottomLeftLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontBottomLeftLight)
-    let frontBottomRightLight = new ENGINE.SpotLight('DirectLightFrontBottomRight', new THREE.Color(1, 1, 1), 1, 50, ENGINE.Maths.toRadians(120), 1)
+    let frontBottomRightLight = new ENGINE.SpotLight('DirectLightFrontBottomRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontBottomRightLight.setPosition(2.5, -3, 2.5)
     frontBottomRightLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontBottomRightLight)
-
 
     let input = new ENGINE.InputManager('Input', canvas)
     input.registerMoveEvent(RotateModel)
