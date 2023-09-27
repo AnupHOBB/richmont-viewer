@@ -28,10 +28,10 @@
             div#edit-panel-body
             {
                 position: absolute;
-                top: 10%;
+                top: 20%;
                 left: 5%;
                 width: 90%;
-                height: 80%;
+                height: 28.5%;
                 background-color: mediumaquamarine;
             }
 
@@ -50,41 +50,21 @@
             div#panel-texture
             {
                 position: absolute;
-                top: 7.5%;
+                top: 20%;
                 left: 0%;
                 width: 100%;
-                height: 42.5%;
-                background-color: rgba(240, 248, 255, 0.5);
-            }
-
-            p#color-title
-            {
-                position: absolute;
-                top: 50%;
-                width: 100%;
-                height: 2.5%;
-                text-align: center;
-                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-                font-size: medium;
-                color: darkblue;
-            }
-
-            div#panel-color
-            {
-                position: absolute;
-                top: 57.5%;
-                left: 0%;
-                width: 100%;
-                height: 42.5%;
+                height: 80%;
                 background-color: rgba(240, 248, 255, 0.5);
             }
 
             div.panel-body
             {
                 width: 100%;
-                max-height: 100%;
+                height: 100%;
                 display: grid;
                 grid-template-columns: 33.3% 33.3% 33.3%;
+                grid-template-rows: 50% 50%;
+                row-gap: 0%;
                 overflow-x: hidden;
                 overflow-y: scroll;
             }
@@ -104,8 +84,6 @@
             <div id="edit-panel-body">
                 <p id="texture-title">TEXTURES</p>
                 <div id="panel-texture"><div id="panel-texture-body" class="panel-body"></div></div>
-                <!-- <p id="color-title">COLORS</p>
-                <div id="panel-color"><div id="panel-color-body" class="panel-body"></div></div> -->
             </div>
         </div>
     </body>

@@ -20,7 +20,6 @@ loadAssets()
 window.onload = () => 
 {
     fillupTextures(document.getElementById('panel-texture-body'))
-    //fillupColors(document.getElementById('panel-color-body'))
 }
 
 function fillupColors(colorContainer)
