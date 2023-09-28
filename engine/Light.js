@@ -122,6 +122,12 @@ export class DirectLight extends SceneObject
     setLookAt(x, y, z) { this.light.target.position.set(x, y, z) }
 
     /**
+     * Sets the light intensity
+     * @param {Number} intensity the intensity to be applied 
+     */
+    setIntensity(intensity) { this.light.intensity = intensity }
+
+    /**
      * Returns the list of drawable threejs meshes
      * @returns {Array} array of threejs mesh objects
      */
@@ -207,6 +213,12 @@ export class PointLight extends SceneObject
      * @param {Number} z z-coordinate in world space 
      */
     setPosition(x, y, z) { this.light.position.set(x, y, z) }
+
+    /**
+     * Sets the light intensity
+     * @param {Number} intensity the intensity to be applied 
+     */
+    setIntensity(intensity) { this.light.intensity = intensity }
 
     /**
      * Returns the list of drawable threejs meshes
@@ -302,6 +314,12 @@ export class SpotLight extends SceneObject
      * @param {Number} z z-coordinate in world space 
      */
     setLookAt(x, y, z) { this.light.target.position.set(x, y, z) }
+
+    /**
+     * Sets the light intensity
+     * @param {Number} intensity the intensity to be applied 
+     */
+    setIntensity(intensity) { this.light.intensity = intensity }
 
     /**
      * Returns the list of drawable threejs meshes

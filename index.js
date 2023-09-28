@@ -12,6 +12,7 @@ const MODEL_PATH = './assets/Dial0123.glb'
 const MODEL_NAME = 'Watch'
                         //smaller dials          bigger dial
 const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
+let lights = []
 let xrot = 0
 let yrot = 0
 let model
@@ -66,18 +67,26 @@ function onLoadComplete(assetMap)
     frontLeftLight.setPosition(-4, -0.5, 2.5)
     frontLeftLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontLeftLight)
+    lights.push(frontLeftLight)
+
     let frontRightLight = new ENGINE.SpotLight('DirectLightFrontRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontRightLight.setPosition(4, -0.5, 2.5)
     frontRightLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontRightLight)
+    lights.push(frontRightLight)
+
     let frontTopLight = new ENGINE.SpotLight('DirectLightFrontTop', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontTopLight.setPosition(0, 3.5, 2.5)
     frontTopLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontTopLight)
+    lights.push(frontTopLight)
+
     let frontBottomLight = new ENGINE.SpotLight('DirectLightFrontBottom', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
     frontBottomLight.setPosition(0, -4.5, 2.5)
     frontBottomLight.setLookAt(0, -0.5, 0)
     sceneManager.register(frontBottomLight)
+    lights.push(frontBottomLight)
+
     let input = new ENGINE.InputManager('Input', canvas)
     input.registerMoveEvent(RotateModel)
     sceneManager.register(input)
@@ -88,6 +97,7 @@ function onLoadComplete(assetMap)
     model.setRotation(ENGINE.Maths.toRadians(yrot), 0, 0)
     model.setMetalness(0.9)
     sceneManager.register(model)
+    addDebugUI(sceneManager)
     onTextureClick(5)
 }
 
@@ -99,4 +109,17 @@ function RotateModel(dx, dy)
         yrot += dy * 0.5
         model.setRotation(ENGINE.Maths.toRadians(yrot), 0, ENGINE.Maths.toRadians(-xrot))
     }
+}
+
+function addDebugUI(sceneManager)
+{
+    let debugUI = new ENGINE.DebugUI(document.getElementById('debug-ui-container'), 'Debug Menu')
+    debugUI.addSlider('', 'Light Intensity', 1, 0, 1, value => {
+        for (let light of lights)
+            light.setIntensity(value)
+    })
+    debugUI.addSlider('', 'Metalness', 0.9, 0, 1, value => {
+        if (model != undefined)
+            model.setMetalness(value)
+    })
 }
