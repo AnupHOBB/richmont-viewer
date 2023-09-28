@@ -17,14 +17,14 @@ let yrot = 0
 let model
 loadAssets()
 
-window.onload = () => { fillupTextures(document.getElementById('panel-texture-body')) }
+window.onload = () => { fillupTextures(document.getElementById('color-menu')) }
 
 function fillupTextures(textureContainer)
 {
     for(let i=0; i<TEXTURE_PATHS.length; i++)
     {
         let imgElement = document.createElement('img')
-        imgElement.className = 'panel-content'
+        imgElement.className = 'color-item'
         imgElement.src = TEXTURE_PATHS[i]
         imgElement.addEventListener('click', ()=>{onTextureClick(i)})
         textureContainer.appendChild(imgElement)
@@ -52,7 +52,7 @@ function onLoadComplete(assetMap)
         TEXTURES.push(assetMap.get(TEXTURE_BASE_KEY+i).clone())
     let canvas = document.querySelector('canvas#scene')
     let sceneManager = new ENGINE.SceneManager(canvas)
-    sceneManager.setSizeInPercent(0.8, 1)
+    sceneManager.setSizeInPercent(1, 0.9)
     let cameraManager = new ENGINE.StaticCameraManager('Camera', 50)
     cameraManager.setPosition(0, -0.5, 5)
     sceneManager.register(cameraManager)
@@ -84,7 +84,7 @@ function onLoadComplete(assetMap)
     model.setRotation(ENGINE.Maths.toRadians(yrot), 0, 0)
     model.setMetalness(0.9)
     sceneManager.register(model)
-    //onTextureClick(5)
+    onTextureClick(5)
 }
 
 function RotateModel(dx, dy)
