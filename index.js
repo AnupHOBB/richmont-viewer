@@ -15,6 +15,7 @@ const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
 let xrot = 0
 let yrot = 0
 let model
+let imgElements = []
 loadAssets()
 
 window.onload = () => { fillupTextures(document.getElementById('color-menu')) }
@@ -26,8 +27,9 @@ function fillupTextures(textureContainer)
         let imgElement = document.createElement('img')
         imgElement.className = 'color-item'
         imgElement.src = TEXTURE_PATHS[i]
-        imgElement.addEventListener('click', ()=>{onTextureClick(i)})
+        imgElement.addEventListener('click', ()=>{ onTextureClick(i) })
         textureContainer.appendChild(imgElement)
+        imgElements.push(imgElement)
     }
 }
 
@@ -35,6 +37,8 @@ function onTextureClick(index)
 {
     if (model != undefined && TEXTURES.length > index)
         model.applyTextureOn(TEXTURES[index], MESH_NAMES)
+    for (let i=0; i<imgElements.length; i++)
+        imgElements[i].style.borderColor = (i == index) ? "rgb(25, 25, 112)" : "rgba(0, 0, 0, 0)"
 }
 
 function loadAssets()

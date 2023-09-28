@@ -259,8 +259,6 @@
     }
 }
 
-.color-item:hover { border-color: midnightblue; }
-
 @media screen and (max-width: 600px)
 {
     .color-item-label
