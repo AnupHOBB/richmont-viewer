@@ -116,7 +116,6 @@ export class MeshModel extends SceneObject
                     mesh.material.transparent = true
                     mesh.material.envMapIntensity = 3
                 }
-                mesh.material.map.anisotropy = 16
             }
         })
         const clip = model.animations[0]
@@ -335,6 +334,14 @@ export class MeshModel extends SceneObject
         Misc.postOrderTraversal(this.scene, mesh => {
             if (mesh.material != undefined)
                 mesh.material.map.anisotropy = value
+        })
+    }
+
+    setMetalness(metalness)
+    {
+        Misc.postOrderTraversal(this.scene, mesh => {
+            if (mesh.material != undefined)
+                mesh.material.metalness = metalness
         })
     }
 
