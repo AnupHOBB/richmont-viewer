@@ -337,12 +337,62 @@ export class MeshModel extends SceneObject
         })
     }
 
+    setRoughness(roughness)
+    {
+        Misc.postOrderTraversal(this.scene, mesh => {
+            if (mesh.material != undefined)
+                mesh.material.roughness = roughness
+        })
+    }
+
+    setRoughnessOn(roughness, names) 
+    { 
+        if (names.length > 0)
+        {
+            Misc.postOrderTraversal(this.scene, mesh => {
+                if (mesh.material != undefined)
+                {
+                    for (let name of names)
+                    {
+                        if (name == mesh.name)
+                        {        
+                            if (mesh.material != undefined)
+                                mesh.material.roughness = roughness
+                            break
+                        }
+                    }    
+                }
+            }) 
+        }
+    }
+
     setMetalness(metalness)
     {
         Misc.postOrderTraversal(this.scene, mesh => {
             if (mesh.material != undefined)
                 mesh.material.metalness = metalness
         })
+    }
+
+    setMetalnessOn(metalness, names) 
+    { 
+        if (names.length > 0)
+        {
+            Misc.postOrderTraversal(this.scene, mesh => {
+                if (mesh.material != undefined)
+                {
+                    for (let name of names)
+                    {
+                        if (name == mesh.name)
+                        {        
+                            if (mesh.material != undefined)
+                                mesh.material.metalness = metalness
+                            break
+                        }
+                    }    
+                }
+            }) 
+        }
     }
 
     /**
