@@ -2,7 +2,7 @@ import * as THREE from './node_modules/three/src/Three.js'
 import * as ENGINE from './engine/Engine.js'
 import {GLTFLoader} from './node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 
-const EXTENSION = '.jpg'//'.png'
+const EXTENSION = '.png'//'.jpg'
 const TEXTURE_PATHS = ['assets/images/1'+EXTENSION, 'assets/images/2'+EXTENSION, 'assets/images/3'+EXTENSION, 
 'assets/images/4'+EXTENSION, 'assets/images/5'+EXTENSION, 'assets/images/6'+EXTENSION]
 const TEXTURES = []
@@ -57,13 +57,23 @@ function onLoadComplete(assetMap)
     cameraManager.setPosition(0, -0.5, 5)
     sceneManager.register(cameraManager)
     sceneManager.setActiveCamera('Camera')
-
     const LIGHT_INTENSITY = 1
-    let frontLight = new ENGINE.SpotLight('DirectLightFront', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 100, ENGINE.Maths.toRadians(90), 1)
-    frontLight.setPosition(0, -0.5, 5)
-    frontLight.setLookAt(0, -0.5, 0)
-    sceneManager.register(frontLight)
-
+    let frontLeftLight = new ENGINE.SpotLight('DirectLightFrontLeft', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
+    frontLeftLight.setPosition(-4, -0.5, 2.5)
+    frontLeftLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(frontLeftLight)
+    let frontRightLight = new ENGINE.SpotLight('DirectLightFrontRight', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
+    frontRightLight.setPosition(4, -0.5, 2.5)
+    frontRightLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(frontRightLight)
+    let frontTopLight = new ENGINE.SpotLight('DirectLightFrontTop', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
+    frontTopLight.setPosition(0, 3.5, 2.5)
+    frontTopLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(frontTopLight)
+    let frontBottomLight = new ENGINE.SpotLight('DirectLightFrontBottom', new THREE.Color(1, 1, 1), LIGHT_INTENSITY, 50, ENGINE.Maths.toRadians(120), 1)
+    frontBottomLight.setPosition(0, -4.5, 2.5)
+    frontBottomLight.setLookAt(0, -0.5, 0)
+    sceneManager.register(frontBottomLight)
     let input = new ENGINE.InputManager('Input', canvas)
     input.registerMoveEvent(RotateModel)
     sceneManager.register(input)
@@ -72,9 +82,9 @@ function onLoadComplete(assetMap)
     model.setRotationOrder('XZY')
     yrot = 90
     model.setRotation(ENGINE.Maths.toRadians(yrot), 0, 0)
-    model.setMetalness(0.6)
+    model.setMetalness(0.9)
     sceneManager.register(model)
-    onTextureClick(5)
+    //onTextureClick(5)
 }
 
 function RotateModel(dx, dy)
