@@ -34,7 +34,7 @@ let yrot = 0
 let model
 let lights = []
 let imgElements = []
-let smallDialMetalness = 0.85
+let smallDialMetalness = 0.95
 let bigDialMetalness = 0.85
 let numbersAndTextMetalness = 0.85
 let center
