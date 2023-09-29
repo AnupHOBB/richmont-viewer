@@ -2,11 +2,7 @@ import * as THREE from './node_modules/three/src/Three.js'
 import * as ENGINE from './engine/Engine.js'
 import {GLTFLoader} from './node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 
-/**
- * jpg textures are brighter
- * png textures are darker
- */
-const EXTENSION = '.png'//'.jpg'
+const EXTENSION = '.png'
 const TEXTURE_PATHS = ['assets/images/1'+EXTENSION, 'assets/images/2'+EXTENSION, 'assets/images/3'+EXTENSION, 
 'assets/images/4'+EXTENSION, 'assets/images/5'+EXTENSION, 'assets/images/6'+EXTENSION]
 const TEXTURES = []
@@ -15,7 +11,7 @@ const NORMAL_LINE_KEY = 'normal_line'
 const NORMAL_PLAIN_KEY = 'normal_plain'
 const TEXTURE_BASE_KEY = 'texture'
 const MODEL_PATH = './assets/Dial0123_lines.glb'
-//const MODEL_PATH = './assets/Dial0123.glb'
+
 const MODEL_NAME = 'Watch'
                         //smaller dials          bigger dial
 const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
@@ -88,7 +84,6 @@ function onLoadComplete(assetMap)
     cameraManager.setPosition(0, -0.5, 5)
     sceneManager.register(cameraManager)
     sceneManager.setActiveCamera('Camera')
-
     let input = new ENGINE.InputManager('Input', canvas)
     input.registerMoveEvent(rotateModel)
     sceneManager.register(input)
@@ -102,7 +97,6 @@ function onLoadComplete(assetMap)
     model.setMetalnessOn(bigDialMetalness, [BIGGER_DIAL])
     sceneManager.register(model)
     sceneManager.setSaturation(1)
-
     let color = 0.25
     const LIGHT_COLOR = new THREE.Color(color, color, color)
     let left = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, RADIAL_LIGHT_INTENSITY)
@@ -115,12 +109,10 @@ function onLoadComplete(assetMap)
     right.setLookAt(0, -0.5, 0)
     sceneManager.register(right)
     lights.push(right)
-
     center = new ENGINE.DirectLight('DirectLightCenter', new THREE.Color(1, 1, 1), MAIN_LIGHT_INTENSITY)//1)
     center.setPosition(0, -0.5, 1000)
     center.setLookAt(0, -0.5, 0)
     sceneManager.register(center)
-
     setupDebugUI(sceneManager)
     onTextureClick(5)
 }
