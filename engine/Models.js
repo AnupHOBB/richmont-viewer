@@ -329,6 +329,24 @@ export class MeshModel extends SceneObject
         }) 
     }
 
+    applyNormalmapOn(normalMap, names)
+    {
+        Misc.postOrderTraversal(this.scene, mesh => {
+            if (mesh.material != undefined && mesh.material.isMeshStandardMaterial != undefined && mesh.material.isMeshStandardMaterial)
+            {    
+                for (let name of names)
+                {
+                    if (name == mesh.name)
+                    {        
+                        mesh.material.normalMap = normalMap
+                        mesh.material.needsUpdate = true
+                        break
+                    }
+                }  
+            }
+        }) 
+    }
+
     setTextureAnisotropy(value)
     {
         Misc.postOrderTraversal(this.scene, mesh => {
