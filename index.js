@@ -22,8 +22,8 @@ const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
 
 const SMALLER_DIALS = 'Dialc061_10108_123_1'
 const BIGGER_DIAL = 'Dialc061_10108_123_2'
-const RADIAL_LIGHT_INTENSITY = 0.25//0.5
-const MAIN_LIGHT_INTENSITY = 1
+const RADIAL_LIGHT_INTENSITY = 0.25
+const MAIN_LIGHT_INTENSITY = 5
 
 const X_OFFSET = 900
 const Y_OFFSET = 400
@@ -34,9 +34,9 @@ let yrot = 0
 let model
 let lights = []
 let imgElements = []
-let smallDialMetalness = 0.7
-let bigDialMetalness = 0.7
-let numbersAndTextMetalness = 0.5
+let smallDialMetalness = 0.85
+let bigDialMetalness = 0.85
+let numbersAndTextMetalness = 0.85
 let center
 
 loadAssets()
@@ -82,6 +82,8 @@ function onLoadComplete(assetMap)
     let canvas = document.querySelector('canvas#scene')
     let sceneManager = new ENGINE.SceneManager(canvas)
     sceneManager.setSizeInPercent(1, 0.9)
+    sceneManager.setGamma(1)
+    sceneManager.setSaturation(1)
     let cameraManager = new ENGINE.StaticCameraManager('Camera', 50)
     cameraManager.setPosition(0, -0.5, 5)
     sceneManager.register(cameraManager)
@@ -119,7 +121,7 @@ function onLoadComplete(assetMap)
     center.setLookAt(0, -0.5, 0)
     sceneManager.register(center)
 
-    setupDebugUI()
+    setupDebugUI(sceneManager)
     onTextureClick(5)
 }
 
@@ -133,14 +135,14 @@ function rotateModel(dx, dy)
     }
 }
 
-function setupDebugUI()
+function setupDebugUI(sceneManager)
 {
     let debugUI = new ENGINE.DebugUI(document.getElementById('debug-ui-container'), 'Debug Menu')
     debugUI.addSlider('', 'Radial Light Intensity', RADIAL_LIGHT_INTENSITY, 0, 1, value => {
         for (let light of lights)
             light.setIntensity(value)
     })
-    debugUI.addSlider('', 'Center Light Intensity', MAIN_LIGHT_INTENSITY, 0, 5, value => {
+    debugUI.addSlider('', 'Center Light Intensity', MAIN_LIGHT_INTENSITY, 0, 10, value => {
         center.setIntensity(value)
     })
     debugUI.addSlider('', 'Small Dial Metalness', smallDialMetalness, 0, 1, value => {
@@ -160,5 +162,8 @@ function setupDebugUI()
             model.setMetalnessOn(smallDialMetalness, [SMALLER_DIALS])
             model.setMetalnessOn(bigDialMetalness, [BIGGER_DIAL])
         }
+    })
+    debugUI.addSlider('', 'Gamma', 1, 0, 2.2, value => {
+        sceneManager.setGamma(value)
     })
 }
