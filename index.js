@@ -10,7 +10,7 @@ const NORMAL_MAP_PATHS = ['assets/images/normal_lines.png', 'assets/images/norma
 const NORMAL_LINE_KEY = 'normal_line'
 const NORMAL_PLAIN_KEY = 'normal_plain'
 const TEXTURE_BASE_KEY = 'texture'
-const MODEL_PATH = './assets/Dial0123_lines.glb'
+const MODEL_PATH = './assets/Dial0123_lines_2.glb'
 
 const MODEL_NAME = 'Watch'
                         //smaller dials          bigger dial
@@ -18,22 +18,22 @@ const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
 
 const SMALLER_DIALS = 'Dialc061_10108_123_1'
 const BIGGER_DIAL = 'Dialc061_10108_123_2'
-const RADIAL_LIGHT_INTENSITY = 0.25
-const MAIN_LIGHT_INTENSITY = 5
+const DIRECT_LIGHT_INTENSITY = 0.3//0.25
+const AMBIENT_LIGHT_INTENSITY = 5
 
-const X_OFFSET = 900
-const Y_OFFSET = 400
-const Z_POSITION = 1000
+const X_OFFSET = 30//900
+const Y_OFFSET = 30//400
+const Z_POSITION = 50//1000
 
 let xrot = 0
 let yrot = 0
 let model
 let lights = []
 let imgElements = []
-let smallDialMetalness = 0.95
+let smallDialMetalness = 0.9//0.95
 let bigDialMetalness = 0.85
-let numbersAndTextMetalness = 0.85
-let center
+let numbersAndTextMetalness = 0.7//0.85
+let ambient
 
 loadAssets()
 
@@ -97,22 +97,27 @@ function onLoadComplete(assetMap)
     model.setMetalnessOn(bigDialMetalness, [BIGGER_DIAL])
     sceneManager.register(model)
     sceneManager.setSaturation(1)
-    let color = 0.25
+    let color = 0.1//0.25
     const LIGHT_COLOR = new THREE.Color(color, color, color)
-    let left = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, RADIAL_LIGHT_INTENSITY)
+    let left = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
     left.setPosition(0-X_OFFSET, -0.5+Y_OFFSET, Z_POSITION)
     left.setLookAt(0, -0.5, 0)
     sceneManager.register(left)
     lights.push(left)
-    let right = new ENGINE.DirectLight('DirectLightRight', LIGHT_COLOR, RADIAL_LIGHT_INTENSITY)
+    let right = new ENGINE.DirectLight('DirectLightRight', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
     right.setPosition(0+X_OFFSET, -0.5-Y_OFFSET, Z_POSITION)
     right.setLookAt(0, -0.5, 0)
     sceneManager.register(right)
     lights.push(right)
-    center = new ENGINE.DirectLight('DirectLightCenter', new THREE.Color(1, 1, 1), MAIN_LIGHT_INTENSITY)//1)
+    let center = new ENGINE.DirectLight('DirectLightCenter', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
     center.setPosition(0, -0.5, 1000)
     center.setLookAt(0, -0.5, 0)
     sceneManager.register(center)
+    lights.push(center)
+
+    ambient = new ENGINE.AmbientLight('AmbientLight', new THREE.Color(1, 1, 1), AMBIENT_LIGHT_INTENSITY)
+    sceneManager.register(ambient)
+
     setupDebugUI(sceneManager)
     onTextureClick(5)
 }
@@ -130,12 +135,12 @@ function rotateModel(dx, dy)
 function setupDebugUI(sceneManager)
 {
     let debugUI = new ENGINE.DebugUI(document.getElementById('debug-ui-container'), 'Debug Menu')
-    debugUI.addSlider('', 'Radial Light Intensity', RADIAL_LIGHT_INTENSITY, 0, 1, value => {
+    debugUI.addSlider('', 'Direct Light Intensity', DIRECT_LIGHT_INTENSITY, 0, 1, value => {
         for (let light of lights)
             light.setIntensity(value)
     })
-    debugUI.addSlider('', 'Center Light Intensity', MAIN_LIGHT_INTENSITY, 0, 10, value => {
-        center.setIntensity(value)
+    debugUI.addSlider('', 'Ambient Light Intensity', AMBIENT_LIGHT_INTENSITY, 0, 10, value => {
+        ambient.setIntensity(value)
     })
     debugUI.addSlider('', 'Small Dial Metalness', smallDialMetalness, 0, 1, value => {
         smallDialMetalness = value

@@ -20,6 +20,12 @@ export class AmbientLight extends SceneObject
     }
 
     /**
+     * Sets the light intensity
+     * @param {Number} intensity the intensity to be applied 
+     */
+    setIntensity(intensity) { this.light.intensity = intensity }
+
+    /**
      * Returns the list of lights attached with this object
      * @returns {Array} array of threejs lights
      */
