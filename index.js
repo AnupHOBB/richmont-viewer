@@ -20,7 +20,7 @@ const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
 const SMALLER_DIALS = 'Dialc061_10108_123_1'
 const BIGGER_DIAL = 'Dialc061_10108_123_2'
 const DIRECT_LIGHT_INTENSITY = 0.3
-const AMBIENT_LIGHT_INTENSITY = 10
+const AMBIENT_LIGHT_INTENSITY = 6
 
 const X_OFFSET = 30
 const Y_OFFSET = 30
@@ -31,9 +31,9 @@ let yrot = 0
 let model
 let lights = []
 let imgElements = []
-let smallDialMetalness = 0.925
-let bigDialMetalness = 0.9
-let numbersAndTextMetalness = 0.9
+let smallDialMetalness = 0.9
+let bigDialMetalness = 0.85
+let numbersAndTextMetalness = 0.7
 let ambient
 
 loadAssets()
