@@ -2,6 +2,7 @@ import * as THREE from './node_modules/three/src/Three.js'
 import * as ENGINE from './engine/Engine.js'
 import {GLTFLoader} from './node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 
+const DEBUG = false
 const EXTENSION = '.png'
 const TEXTURE_PATHS = ['assets/images/1'+EXTENSION, 'assets/images/2'+EXTENSION, 'assets/images/3'+EXTENSION, 
 'assets/images/4'+EXTENSION, 'assets/images/5'+EXTENSION, 'assets/images/6'+EXTENSION]
@@ -18,21 +19,21 @@ const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
 
 const SMALLER_DIALS = 'Dialc061_10108_123_1'
 const BIGGER_DIAL = 'Dialc061_10108_123_2'
-const DIRECT_LIGHT_INTENSITY = 0.3//0.25
-const AMBIENT_LIGHT_INTENSITY = 6
+const DIRECT_LIGHT_INTENSITY = 0.3
+const AMBIENT_LIGHT_INTENSITY = 10
 
-const X_OFFSET = 30//900
-const Y_OFFSET = 30//400
-const Z_POSITION = 50//1000
+const X_OFFSET = 30
+const Y_OFFSET = 30
+const Z_POSITION = 50
 
 let xrot = 0
 let yrot = 0
 let model
 let lights = []
 let imgElements = []
-let smallDialMetalness = 0.9//0.95
-let bigDialMetalness = 0.85
-let numbersAndTextMetalness = 0.7//0.85
+let smallDialMetalness = 0.925
+let bigDialMetalness = 0.9
+let numbersAndTextMetalness = 0.9
 let ambient
 
 loadAssets()
@@ -97,7 +98,7 @@ function onLoadComplete(assetMap)
     model.setMetalnessOn(bigDialMetalness, [BIGGER_DIAL])
     sceneManager.register(model)
     sceneManager.setSaturation(1)
-    let color = 0.1//0.25
+    let color = 0.1
     const LIGHT_COLOR = new THREE.Color(color, color, color)
     let left = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
     left.setPosition(0-X_OFFSET, -0.5+Y_OFFSET, Z_POSITION)
@@ -114,12 +115,12 @@ function onLoadComplete(assetMap)
     center.setLookAt(0, -0.5, 0)
     sceneManager.register(center)
     lights.push(center)
-
     ambient = new ENGINE.AmbientLight('AmbientLight', new THREE.Color(1, 1, 1), AMBIENT_LIGHT_INTENSITY)
     sceneManager.register(ambient)
-
-    setupDebugUI(sceneManager)
+    if (DEBUG)
+        setupDebugUI(sceneManager)
     onTextureClick(5)
+    document.body.removeChild(document.getElementById("loading-container"))
 }
 
 function rotateModel(dx, dy)

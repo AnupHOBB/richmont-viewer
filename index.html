@@ -20,10 +20,27 @@
                 top: 0%;
                 right: 0%;
             }
+
+            div#loading-container
+            {
+                position: absolute;
+                top: 45%;
+                width: 100%;
+            }
+
+            div#loading-container > p
+            {
+                display: block;
+                margin: auto;
+                width: 5%;
+                font-size: medium;
+                text-align: center;
+            }
         </style>     
     </head>
     <body>
         <canvas id="scene"></canvas>
+        <div id="loading-container"><p>LOADING...</p></div>
         <div id="debug-ui-container"></div>
         <div id="color-menu-container"><div id="color-menu-outer"><div id="color-menu"></div></div></div>
     </body>
