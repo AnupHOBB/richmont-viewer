@@ -121,6 +121,10 @@ export class DirectLight extends SceneObject
 
     getPosition() { return this.light.position }
 
+    setRotation(x, y, z) { this.light.setRotationFromEuler(new THREE.Euler(x, y, z)) }
+
+    getRotation() { return this.light.rotation }
+
     /**
      * Sets the position where the light is supposed to look at
      * @param {Number} x x-coordinate in world space
@@ -128,6 +132,8 @@ export class DirectLight extends SceneObject
      * @param {Number} z z-coordinate in world space 
      */
     setLookAt(x, y, z) { this.light.target.position.set(x, y, z) }
+
+    getLookAt(x, y, z) { return this.light.target.position }
 
     /**
      * Sets the light intensity

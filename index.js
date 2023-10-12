@@ -130,6 +130,36 @@ function rotateModel(dx, dy)
 function setupDebugUI(sceneManager)
 {
     let debugUI = new ENGINE.DebugUI(document.getElementById('debug-ui-container'), 'Debug Menu')
+    debugUI.addSlider('Left Light Target', 'x', 0, -1, 1, value => {
+        let lookAt = lights[0].getLookAt()
+        lookAt.x = value
+        lights[0].setLookAt(lookAt.x, lookAt.y, lookAt.z)
+    })
+    debugUI.addSlider('Left Light Target', 'y', -0.5, -1, 1, value => {
+        let lookAt = lights[0].getLookAt()
+        lookAt.y = value
+        lights[0].setLookAt(lookAt.x, lookAt.y, lookAt.z)
+    })
+    debugUI.addSlider('Left Light Target', 'z', 0, -1, 1, value => {
+        let lookAt = lights[0].getLookAt()
+        lookAt.z = value
+        lights[0].setLookAt(lookAt.x, lookAt.y, lookAt.z)
+    })
+    debugUI.addSlider('Right Light Target', 'x', 0, -1, 1, value => {
+        let lookAt = lights[1].getLookAt()
+        lookAt.x = value
+        lights[1].setLookAt(lookAt.x, lookAt.y, lookAt.z)
+    })
+    debugUI.addSlider('Right Light Target', 'y', -0.5, -1, 1, value => {
+        let lookAt = lights[1].getLookAt()
+        lookAt.y = value
+        lights[1].setLookAt(lookAt.x, lookAt.y, lookAt.z)
+    })
+    debugUI.addSlider('Right Light Target', 'z', 0, -1, 1, value => {
+        let lookAt = lights[1].getLookAt()
+        lookAt.z = value
+        lights[1].setLookAt(lookAt.x, lookAt.y, lookAt.z)
+    })
     debugUI.addSlider('', 'Lights separation', LIGHT_SEPARATION, 0, 200, value => {
         let halfValue = value/2
         for (let i=0; i<lights.length; i++)
