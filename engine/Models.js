@@ -168,6 +168,23 @@ export class MeshModel extends SceneObject
      */
     setRotationFromAxisAngle(axis, angle) { this.scene.setRotationFromAxisAngle(axis, angle) }
 
+    setRotationFromAxisAngleFor(axis, angleInRadians, names)
+    {
+        Misc.postOrderTraversal(this.scene, mesh => {
+            if (mesh.material != undefined)
+            {    
+                for (let name of names)
+                {
+                    if (name == mesh.name)
+                    {        
+                        mesh.setRotationFromAxisAngle(axis, angleInRadians)
+                        break
+                    }
+                }  
+            }
+        }) 
+    }
+
     /**
      * Sets the rotation order for the model. Values should be one of the following in string :-
      * XYZ, ZXY, YZX, XZY, YXZ, ZYX
@@ -339,6 +356,25 @@ export class MeshModel extends SceneObject
                     if (name == mesh.name)
                     {        
                         mesh.material.normalMap = normalMap
+                        mesh.material.needsUpdate = true
+                        break
+                    }
+                }  
+            }
+        }) 
+    }
+
+    rotateNormalMapOf(angleInRadians, names)
+    {
+        Misc.postOrderTraversal(this.scene, mesh => {
+            if (mesh.material != undefined && mesh.material.isMeshStandardMaterial != undefined && mesh.material.isMeshStandardMaterial)
+            {    
+                for (let name of names)
+                {
+                    if (name == mesh.name)
+                    {        
+                        mesh.material.normalMap.rotation = angleInRadians
+                        mesh.material.normalMap.needsUpdate = true
                         mesh.material.needsUpdate = true
                         break
                     }

@@ -119,6 +119,8 @@ export class DirectLight extends SceneObject
      */
     setPosition(x, y, z) { this.light.position.set(x, y, z) }
 
+    getPosition() { return this.light.position }
+
     /**
      * Sets the position where the light is supposed to look at
      * @param {Number} x x-coordinate in world space
