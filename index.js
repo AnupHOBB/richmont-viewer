@@ -2,7 +2,7 @@ import * as THREE from './node_modules/three/src/Three.js'
 import * as ENGINE from './engine/Engine.js'
 import {GLTFLoader} from './node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 
-const DEBUG = true
+const DEBUG = false
 const EXTENSION = '.png'
 const TEXTURE_PATHS = ['assets/images/1'+EXTENSION, 'assets/images/2'+EXTENSION, 'assets/images/3'+EXTENSION, 
 'assets/images/4'+EXTENSION, 'assets/images/5'+EXTENSION, 'assets/images/6'+EXTENSION]
@@ -33,6 +33,7 @@ let smallDialMetalness = 0.96
 let bigDialMetalness = 0.95
 let numbersAndTextMetalness = 0.9
 let ambient
+let cameraManager
 
 loadAssets()
 
@@ -78,12 +79,13 @@ function onLoadComplete(assetMap)
     sceneManager.setSizeInPercent(1, 0.9)
     sceneManager.setGamma(GAMMA)
     sceneManager.setSaturation(1)
-    let cameraManager = new ENGINE.StaticCameraManager('Camera', 50)
+    cameraManager = new ENGINE.StaticCameraManager('Camera', 50)
     cameraManager.setPosition(0, -0.5, 5)
     sceneManager.register(cameraManager)
     sceneManager.setActiveCamera('Camera')
     let input = new ENGINE.InputManager('Input', canvas)
     input.registerMoveEvent(rotateModel)
+    input.registerWheelEvent(onZoom)
     sceneManager.register(input)
     model = new ENGINE.MeshModel(MODEL_NAME, assetMap.get(MODEL_NAME), true)
     model.setPosition(0, -0.5, 0)
@@ -98,16 +100,61 @@ function onLoadComplete(assetMap)
     sceneManager.setSaturation(1)
     let color = 0.1
     const LIGHT_COLOR = new THREE.Color(color, color, color)
-    let left = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
-    left.setPosition(-LIGHT_SEPARATION/2, -2, LIGHT_DISTANCE)
-    left.setLookAt(0, -0.5, 0)
-    sceneManager.register(left)
-    lights.push(left)
-    let right = new ENGINE.DirectLight('DirectLightRight', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
-    right.setPosition(LIGHT_SEPARATION/2, 2, LIGHT_DISTANCE)
-    right.setLookAt(0, -0.5, 0)
-    sceneManager.register(right)
-    lights.push(right)
+    let front1 = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    front1.setPosition(-LIGHT_SEPARATION/2, -2, LIGHT_DISTANCE)
+    front1.setLookAt(0, -0.5, 0)
+    sceneManager.register(front1)
+    lights.push(front1)
+    let front2 = new ENGINE.DirectLight('DirectLightRight', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    front2.setPosition(LIGHT_SEPARATION/2, 2, LIGHT_DISTANCE)
+    front2.setLookAt(0, -0.5, 0)
+    sceneManager.register(front2)
+    lights.push(front2)
+
+    let left1 = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    left1.setPosition(-LIGHT_DISTANCE, 0, -LIGHT_SEPARATION/2)
+    left1.setLookAt(0, -0.5, 0)
+    sceneManager.register(left1)
+    lights.push(left1)
+    let left2 = new ENGINE.DirectLight('DirectLightRight', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    left2.setPosition(-LIGHT_DISTANCE, 0, LIGHT_SEPARATION/2)
+    left2.setLookAt(0, -0.5, 0)
+    sceneManager.register(left2)
+    lights.push(left2)
+
+    let right1 = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    right1.setPosition(LIGHT_DISTANCE, 0, -LIGHT_SEPARATION/2)
+    right1.setLookAt(0, -0.5, 0)
+    sceneManager.register(right1)
+    lights.push(right1)
+    let right2 = new ENGINE.DirectLight('DirectLightRight', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    right2.setPosition(LIGHT_DISTANCE, 0, LIGHT_SEPARATION/2)
+    right2.setLookAt(0, -0.5, 0)
+    sceneManager.register(right2)
+    lights.push(right2)
+
+    let top1 = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    top1.setPosition(-LIGHT_SEPARATION/2, LIGHT_DISTANCE, 0)
+    top1.setLookAt(0, -0.5, 0)
+    sceneManager.register(top1)
+    lights.push(top1)
+    let top2 = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    top2.setPosition(LIGHT_SEPARATION/2, LIGHT_DISTANCE, 0)
+    top2.setLookAt(0, -0.5, 0)
+    sceneManager.register(top2)
+    lights.push(top2)
+
+    let bottom1 = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    bottom1.setPosition(-LIGHT_SEPARATION/2, -LIGHT_DISTANCE, 0)
+    bottom1.setLookAt(0, -0.5, 0)
+    sceneManager.register(bottom1)
+    lights.push(bottom1)
+    let bottom2 = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
+    bottom2.setPosition(LIGHT_SEPARATION/2, -LIGHT_DISTANCE, 0)
+    bottom2.setLookAt(0, -0.5, 0)
+    sceneManager.register(bottom2)
+    lights.push(bottom2)
+
     ambient = new ENGINE.AmbientLight('AmbientLight', new THREE.Color(1, 1, 1), AMBIENT_LIGHT_INTENSITY)
     sceneManager.register(ambient)
     if (DEBUG)
@@ -123,6 +170,15 @@ function rotateModel(dx, dy)
         xrot += dx * 0.5
         yrot += dy * 0.5
         model.setRotation(ENGINE.Maths.toRadians(yrot), 0, ENGINE.Maths.toRadians(-xrot))
+    }
+}
+
+function onZoom(scale)
+{
+    if (cameraManager != null)
+    {    
+        let fov = cameraManager.getFOV()
+        cameraManager.setFOV(fov + scale)
     }
 }
 
@@ -159,7 +215,7 @@ function setupDebugUI(sceneManager)
         lookAt.z = value
         lights[1].setLookAt(lookAt.x, lookAt.y, lookAt.z)
     })
-    debugUI.addSlider('', 'Lights separation', LIGHT_SEPARATION, 0, 200, value => {
+    debugUI.addSlider('', 'Lights separation', LIGHT_SEPARATION, 0, 10, value => {
         let halfValue = value/2
         for (let i=0; i<lights.length; i++)
         {    
@@ -168,7 +224,7 @@ function setupDebugUI(sceneManager)
             lights[i].setPosition(position.x, position.y, position.z)
         }
     })
-    debugUI.addSlider('', 'Lights distance', LIGHT_DISTANCE, 0, 200, value => {
+    debugUI.addSlider('', 'Lights distance', LIGHT_DISTANCE, 0, 10, value => {
         for (let i=0; i<lights.length; i++)
         {    
             let position = lights[i].getPosition()

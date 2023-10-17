@@ -69,6 +69,16 @@ export class InputManager extends SceneObject
     }
 
     /**
+     * Registers mouse wheel callbacks
+     * @param {Function} onWheelMove callback that is called whenever user moves the mouse wheel
+     */
+    registerWheelEvent(onWheelMove)
+    {
+        if (onWheelMove != null && onWheelMove != undefined)
+            this.mouseEvent.wheelCallbacks.push(onWheelMove)
+    }
+
+    /**
      * Called by SceneManager every frame.
      * This function delegates call to KeyEventCore notify
      * @param {SceneManager} sceneManager the SceneManager object
@@ -142,6 +152,7 @@ class MouseEventCore
         this.clickCallbacks = []
         this.moveCallbacks = []
         this.dblClickCallbacks = []
+        this.wheelCallbacks = []
         this.dblTapCounter = 0
         this.registerCanvasEvents(canvas)
     }
@@ -158,6 +169,7 @@ class MouseEventCore
         canvas.addEventListener('touchstart', e=>this.onPress(e))
         canvas.addEventListener('touchend', e=>this.onRelease(e))
         canvas.addEventListener('touchmove', e=>this.onMove(e))
+        canvas.addEventListener('wheel', e=>this.onWheelRoll(e))
     }
 
     /**
@@ -245,5 +257,18 @@ class MouseEventCore
     {
         for (let dblClickCallback of this.dblClickCallbacks)
             dblClickCallback(event)
+    }
+
+    /**
+     * Called whenever the mouse wheel is rolled.
+     * @param {Event} event mouse wheel event
+     */
+    onWheelRoll(event)
+    {
+        if (this.wheelCallbacks.length > 0)
+        {    
+            for (let wheelCallback of this.wheelCallbacks)
+                wheelCallback(event.deltaY/100)
+        }
     }
 }

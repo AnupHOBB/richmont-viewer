@@ -45,6 +45,22 @@ export class StaticCameraManager extends CameraManager
     setAspectRatio(ratio) { this.core.camera.aspect = ratio }
 
     /**
+     * Sets the camera field of view
+     * @param {Number} fov field of view
+     */
+    setFOV(fov) 
+    {
+        if (this.core.camera.fov > 0 && this.core.camera.fov < 180) 
+            this.core.camera.fov = fov 
+    }
+    
+    /**
+     * Gets the camera field of view
+     * @returns {Number} fov field of view
+     */
+    getFOV() { return this.core.camera.fov }
+
+    /**
      * Delegates call to OrbitalCameraManagerCore's updateMatrices
      */
     updateMatrices() { this.core.updateMatrices() }
