@@ -11,7 +11,6 @@ const ENV_MAP = 'assets/images/envmap.webp'
 const TEXTURE_BASE_KEY = 'texture'
 const ENVMAP_KEY = 'envmap'
 const MODEL_PATH = './assets/Dial0123_new.glb'
-
 const MODEL_NAME = 'Watch'
                         //smaller dials          bigger dial
 const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
