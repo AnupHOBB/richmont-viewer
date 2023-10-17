@@ -109,12 +109,12 @@ export class MeshModel extends SceneObject
                     mesh.material.shadowSide = THREE.BackSide
                     mesh.receiveShadow = true
                     mesh.castShadow = true
-                    mesh.material.envMapIntensity = 0
+                    //mesh.material.envMapIntensity = 0
                 }
                 else if (mesh.material.opacity < 1)
                 {    
                     mesh.material.transparent = true
-                    mesh.material.envMapIntensity = 3
+                    //mesh.material.envMapIntensity = 3
                 }
             }
         })

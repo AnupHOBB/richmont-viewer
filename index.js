@@ -7,10 +7,9 @@ const EXTENSION = '.png'
 const TEXTURE_PATHS = ['assets/images/1'+EXTENSION, 'assets/images/2'+EXTENSION, 'assets/images/3'+EXTENSION, 
 'assets/images/4'+EXTENSION, 'assets/images/5'+EXTENSION, 'assets/images/6'+EXTENSION]
 const TEXTURES = []
-const NORMAL_MAP_PATHS = ['assets/images/normal_lines.png', 'assets/images/normal_plain.png']
-const NORMAL_LINE_KEY = 'normal_line'
-const NORMAL_PLAIN_KEY = 'normal_plain'
+const ENV_MAP = 'assets/images/envmap.webp'
 const TEXTURE_BASE_KEY = 'texture'
+const ENVMAP_KEY = 'envmap'
 const MODEL_PATH = './assets/Dial0123_new.glb'
 
 const MODEL_NAME = 'Watch'
@@ -19,7 +18,7 @@ const MESH_NAMES = ['Dialc061_10108_123_1', 'Dialc061_10108_123_2']
 
 const SMALLER_DIALS = 'Dialc061_10108_123_1'
 const BIGGER_DIAL = 'Dialc061_10108_123_2'
-const DIRECT_LIGHT_INTENSITY = 0.75
+const DIRECT_LIGHT_INTENSITY = 1
 const AMBIENT_LIGHT_INTENSITY = 10
 const LIGHT_SEPARATION = 5
 const LIGHT_DISTANCE = 5
@@ -30,8 +29,8 @@ let yrot = 0
 let model
 let lights = []
 let imgElements = []
-let smallDialMetalness = 0.98
-let bigDialMetalness = 0.98
+let smallDialMetalness = 0.96
+let bigDialMetalness = 0.95
 let numbersAndTextMetalness = 0.9
 let ambient
 
@@ -66,8 +65,7 @@ function loadAssets()
     loader.addLoader(MODEL_NAME, MODEL_PATH, new GLTFLoader())
     for (let i=0; i<TEXTURE_PATHS.length; i++)
         loader.addLoader(TEXTURE_BASE_KEY+i, TEXTURE_PATHS[i], new THREE.TextureLoader())
-    loader.addLoader(NORMAL_LINE_KEY, NORMAL_MAP_PATHS[0], new THREE.TextureLoader())
-    loader.addLoader(NORMAL_PLAIN_KEY, NORMAL_MAP_PATHS[1], new THREE.TextureLoader())
+    loader.addLoader(ENVMAP_KEY, ENV_MAP, new THREE.TextureLoader())
     loader.execute(p=>{}, onLoadComplete)
 }
 
@@ -95,17 +93,18 @@ function onLoadComplete(assetMap)
     model.setMetalness(numbersAndTextMetalness)
     model.setMetalnessOn(smallDialMetalness, [SMALLER_DIALS])
     model.setMetalnessOn(bigDialMetalness, [BIGGER_DIAL])
+    model.applyEnvmap(assetMap.get(ENVMAP_KEY))
     sceneManager.register(model)
     sceneManager.setSaturation(1)
     let color = 0.1
     const LIGHT_COLOR = new THREE.Color(color, color, color)
     let left = new ENGINE.DirectLight('DirectLightLeft', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
-    left.setPosition(-LIGHT_SEPARATION/2, -0.5, LIGHT_DISTANCE)
+    left.setPosition(-LIGHT_SEPARATION/2, -2, LIGHT_DISTANCE)
     left.setLookAt(0, -0.5, 0)
     sceneManager.register(left)
     lights.push(left)
     let right = new ENGINE.DirectLight('DirectLightRight', LIGHT_COLOR, DIRECT_LIGHT_INTENSITY)
-    right.setPosition(LIGHT_SEPARATION/2, -0.5, LIGHT_DISTANCE)
+    right.setPosition(LIGHT_SEPARATION/2, 2, LIGHT_DISTANCE)
     right.setLookAt(0, -0.5, 0)
     sceneManager.register(right)
     lights.push(right)
