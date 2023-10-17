@@ -2,7 +2,7 @@ import * as THREE from './node_modules/three/src/Three.js'
 import * as ENGINE from './engine/Engine.js'
 import {GLTFLoader} from './node_modules/three/examples/jsm/loaders/GLTFLoader.js'
 
-const DEBUG = false
+const DEBUG = true
 const EXTENSION = '.png'
 const TEXTURE_PATHS = ['assets/images/1'+EXTENSION, 'assets/images/2'+EXTENSION, 'assets/images/3'+EXTENSION, 
 'assets/images/4'+EXTENSION, 'assets/images/5'+EXTENSION, 'assets/images/6'+EXTENSION]
@@ -22,7 +22,7 @@ const DIRECT_LIGHT_INTENSITY = 1
 const AMBIENT_LIGHT_INTENSITY = 10
 const LIGHT_SEPARATION = 5
 const LIGHT_DISTANCE = 5
-const GAMMA = 2.2
+const GAMMA = 1.2
 
 let xrot = 0
 let yrot = 0
