@@ -50,7 +50,7 @@ export class StaticCameraManager extends CameraManager
      */
     setFOV(fov) 
     {
-        if (this.core.camera.fov > 0 && this.core.camera.fov < 180) 
+        if (fov > 0 && fov < 51) 
             this.core.camera.fov = fov 
     }
     

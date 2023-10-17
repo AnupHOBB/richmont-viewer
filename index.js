@@ -22,6 +22,7 @@ const AMBIENT_LIGHT_INTENSITY = 10
 const LIGHT_SEPARATION = 5
 const LIGHT_DISTANCE = 5
 const GAMMA = 1.2
+const PAN_SENSITIVITY = 0.01
 
 let xrot = 0
 let yrot = 0
@@ -82,8 +83,9 @@ function onLoadComplete(assetMap)
     sceneManager.register(cameraManager)
     sceneManager.setActiveCamera('Camera')
     let input = new ENGINE.InputManager('Input', canvas)
-    input.registerMoveEvent(rotateModel)
-    input.registerWheelEvent(onZoom)
+    input.registerLMBMoveEvent(rotateModel)
+    input.registerRMBMoveEvent(panCamera)
+    input.registerMouseWheelEvent(onZoom)
     sceneManager.register(input)
     model = new ENGINE.MeshModel(MODEL_NAME, assetMap.get(MODEL_NAME), true)
     model.setPosition(0, -0.5, 0)
@@ -178,6 +180,14 @@ function onZoom(scale)
         let fov = cameraManager.getFOV()
         cameraManager.setFOV(fov + scale)
     }
+}
+
+function panCamera(dx, dy, x, y)
+{
+    let position = cameraManager.getPosition()
+    position.x += dx * PAN_SENSITIVITY
+    position.y -= dy * PAN_SENSITIVITY
+    cameraManager.setPosition(position.x, position.y, position.z)
 }
 
 function setupDebugUI(sceneManager)

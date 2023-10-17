@@ -27,7 +27,7 @@ export class OrbitalCameraManager extends CameraManager
     {
         if (inputManager != null)
         {
-            inputManager.registerMoveEvent((dx, dy) => this.core.onMoveEvent(dx, dy))
+            inputManager.registerLMBMoveEvent((dx, dy) => this.core.onMoveEvent(dx, dy))
             inputManager.setCursorSensitivity(0.5)
         }
     }
